@@ -1,12 +1,11 @@
-# Button Based Delay
-Now that you have begun to familiarize yourself with the TIMER modules, why don't we make an interesting change to our code from the last lab.
+# Brian Harlow's Button Based Delay
 
-## Task
-Setup your microcontroller to initially blink and LED at a rate of 10Hz upon restarting or powering up. Then utilizing one of the buttons on board, a user should be able to set the delay or blinking rate of the LED by holding down a button. The duration in which the button is depressed should then become the new rate at which the LED blinks. As previously stated, you most likely will want to take advantage of the fact that TIMER modules exist and see if you can let them do a bulk of the work for you.
+## Program Purpose
+This program was designed to blink an LED on an MSP430 development board at a frequency decided by the user. The user will push a button and hold it down for the duration that the user would like the LED to remain illuminated for.
 
-### Extra Work
-## Reset Button
-What is a piece of electronics without a reset button? Instead of relying on resetting your processor using the built in reset circuitry, why not instead use another button to reset the rate back to 10Hz.
+## Functionality
+Initially, the desired clock is enabled and the GPIO are set so that the desired LED is an output and the desired button is an input. Interrupts are enabled for the button input to be triggered on the falling edge of P1.3 and the interrupt flag is intially cleared. The ACLK clock is selected, divided by 4, and set to UP Mode. The CCR0 register is set to 0x96 to have an initial frequency of 10Hz. Global Interrupts are then enabled and the microcontroller is put into LPM0. One Interrupt Service Routine is activated when the button is pressed to clear the timer and switch it to Continous mode. When the button is released, the timer is stopped and the value that the timer is at is stored in the CCR0 register to change the blink frequency of the LED.
 
-## Button Based Hertz
-Most likely using two buttons, what if instead of making a delay loop based on the time, the user could instead enter a mode where the number of times they pressed the button would become the number in Hz of the blinking rate? How do you think you would implement that with just one button?
+## Microcontrollers Used
+* MSP430G2553 - The LED used is D1 (P1.0) and the button used is S1 (P1.3).
+* MSP430F5529 - The LED used is LED1 (P1.0) and the button used is S2 (P1.1). 
